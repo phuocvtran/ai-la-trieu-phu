@@ -2,8 +2,8 @@ package com.sire.ailatrieuphu;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,9 +18,10 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     Button btnPlay, btnScore, btnExit, btnHelp;
     ImageView imgSound;
-    User user;
+    Score score;
     Boolean hasSound = true;
-    MediaPlayer soundPlayer;
+    static MediaPlayer soundPlayer;
+    static Boolean keepPlayingSound = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         btnHelp = findViewById(R.id.btnHelp);
         btnScore = findViewById(R.id.btnScore);
         btnExit = findViewById(R.id.btnExit);
-        user = new User();
+        score = new Score();
         imgSound = findViewById(R.id.imgSound);
 
         // Âm thanh
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Vui lòng nhập tên", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    user.setName(txtUsername.getText().toString());
+                    score.setUser(txtUsername.getText().toString());
                     userInput.cancel();
                 }
             }
@@ -92,6 +93,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Điểm cao
+        btnScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent highScore = new Intent(MainActivity.this, Highscore.class);
+                MainActivity.this.startActivity(highScore);
+                keepPlayingSound = true;
+            }
+        });
+
         // Thoát
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +110,15 @@ public class MainActivity extends AppCompatActivity {
                 System.exit(0);
             }
         });
+    }
+
+    // Ngắt âm thanh nếu FALSE, ngược lại giữ âm thanh khi chuyển activity
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(keepPlayingSound == false) {
+            soundPlayer.stop();
+        }
     }
 
     // Âm thanh
