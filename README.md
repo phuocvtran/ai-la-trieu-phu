@@ -5,8 +5,14 @@ Sử dụng Firebase realtime database để lưu trữ <br>
 <strong>DEADLINE: 22/6/2019</strong>
 
 # To-do:
+<h4>15/5/2019</h4>
 <ul>
-  <p>Cập nhật 14/5/2019</p>
+  <li>Chơi</li>
+  <li>Fix âm thanh khi chuyển app</li>
+  <li>Thêm điểm cao khi chơi xong (Tối đa 10 người, không trùng tên)</li>
+</ul>
+<h4>14/5/2019</h4>
+<ul>
   <li>Chơi</li>
   <li>Tương tác Firebase</li>
   <li>Điểm cao</li>
