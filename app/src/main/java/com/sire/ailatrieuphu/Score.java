@@ -2,7 +2,7 @@ package com.sire.ailatrieuphu;
 
 import android.support.annotation.NonNull;
 
-public class Score {
+public class Score implements Comparable<Score> {
     private String user, score;
 
     public Score() {}
@@ -30,5 +30,15 @@ public class Score {
 
     public String toString() {
         return this.user + " - " + this.score;
+    }
+
+    // Sắp xếp
+    @Override
+    public int compareTo(Score o) {
+        int comparedUser = Integer.parseInt(o.getScore());
+        // Giảm dần
+        return comparedUser - Integer.parseInt(this.getScore());
+        // Tăng dần
+        //return Integer.parseInt(this.getScore()) - comparedUser;
     }
 }

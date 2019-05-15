@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -119,6 +120,12 @@ public class MainActivity extends AppCompatActivity {
         if(keepPlayingSound == false) {
             soundPlayer.stop();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        soundPlayer.stop();
+        super.onBackPressed();
     }
 
     // Âm thanh

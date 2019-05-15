@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Highscore extends AppCompatActivity {
     ListView lvScore;
@@ -51,8 +53,11 @@ public class Highscore extends AppCompatActivity {
                 for(DataSnapshot scoreSnapshot : dataSnapshot.getChildren()) {
                     scoreList.add(scoreSnapshot.getValue(Score.class));
                 }
-                //Hiển thị list view PS: F@*K ASYNCHRONOUS
+                // F@*K ASYNCHRONOUS
                 if(!scoreList.isEmpty()) {
+                    // Sắp xếp
+                    Collections.sort(scoreList);
+                    // Hiển thị list view PS
                     scoreArrayAdapter = new ArrayAdapter<>(Highscore.this, android.R.layout.simple_list_item_1, scoreList);
                     lvScore.setAdapter(scoreArrayAdapter);
                 }
@@ -63,9 +68,5 @@ public class Highscore extends AppCompatActivity {
                 Log.w("LoadScoreFailed", databaseError.toException());
             }
         });
-    }
-
-    public void add() {
-
     }
 }
