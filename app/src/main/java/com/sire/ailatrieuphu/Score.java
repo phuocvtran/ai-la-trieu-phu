@@ -28,7 +28,6 @@ public class Score {
         this.user = name;
     }
 
-    @NonNull
     public String toString() {
         return this.user + " - " + this.score;
     }

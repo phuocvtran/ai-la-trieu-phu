@@ -7,7 +7,7 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:id="@+id/listScore"
+        android:id="@+id/lvScore"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
