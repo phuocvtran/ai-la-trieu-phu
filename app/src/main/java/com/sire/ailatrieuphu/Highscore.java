@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,14 +16,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class Highscore extends AppCompatActivity {
     ListView lvScore;
     Button btnReturn;
-    ArrayList<Score> scoreList = new ArrayList<Score>();
-    ArrayAdapter<Score> scoreArrayAdapter = null;
+    ArrayList<User> userList = new ArrayList<User>();
+    ArrayAdapter<User> userArrayAdapter = null;
     private DatabaseReference scoreRef = FirebaseDatabase.getInstance().getReference().child("Score");
 
     @Override
@@ -51,15 +49,15 @@ public class Highscore extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot scoreSnapshot : dataSnapshot.getChildren()) {
-                    scoreList.add(scoreSnapshot.getValue(Score.class));
+                    userList.add(scoreSnapshot.getValue(User.class));
                 }
                 // F@*K ASYNCHRONOUS
-                if(!scoreList.isEmpty()) {
+                if(!userList.isEmpty()) {
                     // Sắp xếp
-                    Collections.sort(scoreList);
+                    Collections.sort(userList);
                     // Hiển thị list view PS
-                    scoreArrayAdapter = new ArrayAdapter<>(Highscore.this, android.R.layout.simple_list_item_1, scoreList);
-                    lvScore.setAdapter(scoreArrayAdapter);
+                    userArrayAdapter = new ArrayAdapter<>(Highscore.this, android.R.layout.simple_list_item_1, userList);
+                    lvScore.setAdapter(userArrayAdapter);
                 }
             }
 

@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +18,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     Button btnPlay, btnScore, btnExit, btnHelp;
     ImageView imgSound;
-    Score score;
+    User user;
     Boolean hasSound = true;
     static MediaPlayer soundPlayer;
     static Boolean keepPlayingSound = true;
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         btnHelp = findViewById(R.id.btnHelp);
         btnScore = findViewById(R.id.btnScore);
         btnExit = findViewById(R.id.btnExit);
-        score = new Score();
+        user = new User();
         imgSound = findViewById(R.id.imgSound);
 
         // Âm thanh
@@ -66,12 +65,27 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Vui lòng nhập tên", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    score.setUser(txtUsername.getText().toString());
+                    user.setUser(txtUsername.getText().toString());
                     userInput.cancel();
                 }
             }
         });
         userInput.show();
+
+        // Bắt đầu
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(user.getUser() == null)
+                    userInput.show();
+                else {
+                    Intent play = new Intent(MainActivity.this, PlayActivity.class);
+                    play.putExtra("strUsername", user.getUser());
+                    keepPlayingSound = false;
+                    startActivity(play);
+                }
+            }
+        });
 
         // Hướng dẫn
         btnHelp.setOnClickListener(new View.OnClickListener() {

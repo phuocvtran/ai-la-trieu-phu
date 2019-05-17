@@ -15,28 +15,32 @@
         android:text="Nội Dung Câu Hỏi"
         android:id="@+id/tvQuestion"
         android:textColor="#FFFFFFFF"
-        android:layout_below="@+id/txtTime"
+        android:layout_below="@+id/tvTimer"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textSize="18dp" />
 
-    <EditText
+    <TextView
+        android:background="#07000000"
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:inputType="time"
         android:ems="10"
-        android:id="@+id/txtTime"
+        android:id="@+id/tvTimer"
         android:textColor="#FFFFFFFF"
         android:layout_below="@+id/btnAsk"
         android:layout_alignLeft="@+id/btnAsk"
-        android:layout_alignStart="@+id/btnAsk" />
+        android:layout_alignStart="@+id/btnAsk"
+        android:text="TIMER"
+        android:textAlignment="center"
+        android:gravity="center_vertical"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Xác Nhận"
         android:id="@+id/btnConfirm"
-        android:layout_above="@+id/tvStatus"
+        android:layout_above="@+id/tvScore"
         android:layout_alignLeft="@+id/btnSwap"
         android:layout_alignStart="@+id/btnSwap" />
 
@@ -93,8 +97,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/tvStatus"
+        android:text="Số Tiền Hiện Tại: "
+        android:id="@+id/tvScore"
         android:textColor="#ffffff"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
