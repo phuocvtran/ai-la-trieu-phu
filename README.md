@@ -13,6 +13,7 @@ Tải về: [google-services](https://console.firebase.google.com/m/mobilesdk/pr
 ### 17/5/2019
   - [ ] Fix âm thanh khi chuyển app
   - [ ] Thêm điểm cao khi chơi xong (Tối đa 9 người, không trùng tên) (Đã đc nhưng bug vcl)
+  - [ ] Button Hỏi ý kiến
 ### 15/5/2019
   - [X] Chơi
   - [ ] Fix âm thanh khi chuyển app
