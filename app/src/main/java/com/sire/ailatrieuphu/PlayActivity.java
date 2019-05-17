@@ -87,6 +87,15 @@ public class PlayActivity extends AppCompatActivity {
                 getRandomIds(1, sumQuestion);
                 Log.d("ALLQUESTIONS", String.valueOf(questionsId));
                 showQuestion(questionRef, questionsId.get(correctAnswer));
+
+                // Đổi câu hỏi
+                btnSwap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btnSwap.setEnabled(false);
+                        showQuestion(questionRef, questionsId.get(15));
+                    }
+                });
             }
 
             @Override
@@ -96,10 +105,10 @@ public class PlayActivity extends AppCompatActivity {
         /**/
     }
 
-    // Lấy 15 câu hỏi Random lưu vào questionsId
+    // Lấy 15 câu hỏi + 1 câu Swap Random lưu vào questionsId
     private void getRandomIds(long min, long max) {
         HashSet hs = new HashSet();
-        while(hs.size()<15) {
+        while(hs.size() < 16) {
             String result = String.valueOf((long)(Math.random() * max) + 1);
             hs.add(result);
         }
