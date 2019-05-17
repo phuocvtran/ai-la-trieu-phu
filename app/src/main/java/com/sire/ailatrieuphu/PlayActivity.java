@@ -2,6 +2,7 @@ package com.sire.ailatrieuphu;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -78,7 +79,7 @@ public class PlayActivity extends AppCompatActivity {
                 optionB.setText(question.getOption2());
                 optionC.setText(question.getOption3());
                 optionD.setText(question.getOption4());
-                tvScore.setText("Số Tiền Hiện Tại: " + reward[correctAnswer]);
+                tvScore.setText("Số Điểm Hiện Tại: " + reward[correctAnswer]);
 
                 // Kiểm tra đáp án
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
@@ -101,24 +102,80 @@ public class PlayActivity extends AppCompatActivity {
         RadioButton selectedRadioButton = findViewById(optionGroup.getCheckedRadioButtonId());
         String answer = selectedRadioButton.getText().toString();
         if(answer.equals(question.getAnswer())) {
-            if(correctAnswer < 14) {
-                playSound = MediaPlayer.create(PlayActivity.this, R.raw.dung);
-                playSound.start();
-
-                AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-                builder.setTitle("Chúc mừng");
-                builder.setMessage("Một Câu Trả Lời Chính Xác");
-                AlertDialog dialog = builder.create();
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Câu Tiếp Theo", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showQuestion();
-                        questionID++;
-                        dialog.cancel();
-                    }
-                });
-                dialog.show();
-            }
+            // Xử lý khi đúng
+            isCorrect();
         }
+        else {
+            // Xử lý khi sai
+            isWrong();
+        }
+    }
+
+    // Xử lý khi đúng
+    private void isCorrect() {
+        if(correctAnswer < 14) {
+            playSound = MediaPlayer.create(PlayActivity.this, R.raw.dung);
+            playSound.start();
+            correctAnswer++;
+            Log.d("CORRECT_ANSWER", String.valueOf(correctAnswer));
+            questionID++;
+
+            AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+            builder.setTitle("Chúc mừng");
+            builder.setMessage("Một Câu Trả Lời Chính Xác");
+            AlertDialog dialog = builder.create();
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Câu Tiếp Theo", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    tvScore.setText("Số Điểm Đạt Được: " + reward[correctAnswer]);
+                    showQuestion();
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
+        }
+        else {
+            AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+            builder.setTitle("Chiến Thắng");
+            builder.setMessage("Bạn Đã Kiếm Được: " + reward[15]);
+            AlertDialog dialog = builder.create();
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    timer.cancel();
+                    // Xử lý lưu điểm
+                    user.setScore(reward[15]);
+
+                    // Trở lại menu
+                    playSound.stop();
+                    finish();
+                }
+            });
+            dialog.show();
+        }
+    }
+
+    // Xử lý khi sai
+    private void isWrong() {
+        playSound = MediaPlayer.create(PlayActivity.this, R.raw.sai);
+        playSound.start();
+        questionID++;
+
+        AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Sai Rồi");
+        builder.setMessage("Thật Đáng Tiếc!\nSố Điểm Đạt Được: " + reward[correctAnswer]);
+        AlertDialog dialog = builder.create();
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Trở lại", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Xử lý lưu điểm
+                user.setScore(reward[correctAnswer]);
+
+                // Trở lại menu
+                playSound.stop();
+                finish();
+            }
+        });
+        dialog.show();
     }
 }

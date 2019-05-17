@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Hướng Dẫn");
-                builder.setMessage("Người chơi phải trả lời 15 câu hỏi. Mỗi câu hỏi đều được gắn với mức tiền thưởng quy định. Người chơi sẽ có 3 quyền trợ giúp:" +
+                builder.setMessage("Người chơi phải trả lời 15 câu hỏi. Mỗi câu hỏi đều được gắn với mức điểm thưởng quy định. Người chơi sẽ có 3 quyền trợ giúp:" +
                         "\n + 50:50 loại bỏ 2 phương án sai" +
                         "\n + Đổi câu hỏi" +
                         "\n + Hỏi ý kiến khán giả ");
@@ -134,6 +134,12 @@ public class MainActivity extends AppCompatActivity {
         if(keepPlayingSound == false) {
             soundPlayer.stop();
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        setSound(soundPlayer, true);
+        super.onRestart();
     }
 
     @Override
