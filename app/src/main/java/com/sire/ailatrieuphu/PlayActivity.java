@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 
 public class PlayActivity extends AppCompatActivity {
     RadioButton optionA, optionB, optionC, optionD;
@@ -69,7 +70,7 @@ public class PlayActivity extends AppCompatActivity {
             String  strUsername = bd.getString("strUsername");
             user.setUser(strUsername);
         }
-
+        startTimer();
         // Lấy câu hỏi
         getQuestionFromDatabase();
     }
@@ -92,6 +93,7 @@ public class PlayActivity extends AppCompatActivity {
                 btnSwap.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        timer.cancel();
                         btnSwap.setEnabled(false);
                         showQuestion(questionRef, questionsId.get(15));
                     }
@@ -121,6 +123,10 @@ public class PlayActivity extends AppCompatActivity {
 
     // Hiển thị và cập nhật câu hỏi
     private void showQuestion(final DatabaseReference questionRef, String id) {
+        optionA.setEnabled(true);
+        optionB.setEnabled(true);
+        optionC.setEnabled(true);
+        optionD.setEnabled(true);
         DatabaseReference idRef = questionRef.child(id);
         idRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -133,11 +139,61 @@ public class PlayActivity extends AppCompatActivity {
                 optionD.setText(question.getOption4());
                 tvScore.setText("Số Điểm Hiện Tại: " + reward[correctAnswer]);
 
+                timer.cancel();
+                startTimer();
                 // Kiểm tra đáp án
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         checkAnswer(questionRef, question);
+                    }
+                });
+
+                // 50:50
+                btn50.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btn50.setEnabled(false);
+                        int temp = 0;
+                        boolean isHiddenA = false, isHiddenB = false, isHiddenC = false, isHiddenD = false;
+                        Random random = new Random();
+                        while(temp < 2) {
+                            char randomChar = (char)(random.nextInt(4) + 'A');
+                            switch (randomChar) {
+                                case 'A':
+                                    if(isHiddenA == false && !(optionA.getText().toString().equals(question.getAnswer()))) {
+                                        temp++;
+                                        isHiddenA = true;
+                                        optionA.setText("");
+                                        optionA.setEnabled(false);
+                                    }
+                                    break;
+                                case 'B':
+                                    if(isHiddenB == false && !(optionB.getText().toString().equals(question.getAnswer()))) {
+                                        temp++;
+                                        isHiddenB = true;
+                                        optionB.setText("");
+                                        optionB.setEnabled(false);
+                                    }
+                                    break;
+                                case 'C':
+                                    if(isHiddenC == false && !(optionC.getText().toString().equals(question.getAnswer()))) {
+                                        temp++;
+                                        isHiddenC = true;
+                                        optionC.setText("");
+                                        optionC.setEnabled(false);
+                                    }
+                                    break;
+                                case 'D':
+                                    if(isHiddenD == false && !(optionD.getText().toString().equals(question.getAnswer()))) {
+                                        temp++;
+                                        isHiddenD = true;
+                                        optionD.setText("");
+                                        optionD.setEnabled(false);
+                                    }
+                                    break;
+                            }
+                        }
                     }
                 });
             }
@@ -167,6 +223,7 @@ public class PlayActivity extends AppCompatActivity {
         if(correctAnswer < 14) {
             playSound = MediaPlayer.create(PlayActivity.this, R.raw.dung);
             playSound.start();
+            timer.cancel();
             correctAnswer++;
             Log.d("CORRECT_ANSWER", String.valueOf(correctAnswer));
 
@@ -198,6 +255,7 @@ public class PlayActivity extends AppCompatActivity {
                     saveHighscore();
 
                     // Trở lại menu
+                    timer.cancel();
                     playSound.stop();
                     finish();
                 }
@@ -210,6 +268,7 @@ public class PlayActivity extends AppCompatActivity {
     private void isWrong(DatabaseReference questionRef) {
         playSound = MediaPlayer.create(PlayActivity.this, R.raw.sai);
         playSound.start();
+        timer.cancel();
 
         AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setTitle("Sai Rồi");
@@ -223,11 +282,46 @@ public class PlayActivity extends AppCompatActivity {
                 saveHighscore();
 
                 // Trở lại menu
+                timer.cancel();
                 playSound.stop();
                 finish();
             }
         });
         dialog.show();
+    }
+
+    // Chạy timer
+    private void startTimer() {
+        timer = new CountDownTimer(31000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tvTimer.setText("Thời gian: " + millisUntilFinished / 1000);
+            }
+
+            @Override
+            public void onFinish() {
+                playSound = MediaPlayer.create(PlayActivity.this, R.raw.hetgio);
+                playSound.start();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(PlayActivity.this);
+                builder.setTitle("Hết Giờ");
+                builder.setMessage("Đã Hết Thời Gian!");
+                builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog dialogTimeOut = builder.create();
+
+                user.setScore(reward[correctAnswer]);
+                // Xử lý lưu điểm
+                saveHighscore();
+                dialogTimeOut.show();
+            }
+        };
+        timer.start();
     }
 
     // Xử lý lưu điểm
