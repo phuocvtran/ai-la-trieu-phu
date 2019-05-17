@@ -137,12 +137,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        setSound(soundPlayer, true);
-        super.onRestart();
-    }
-
-    @Override
     public void onBackPressed() {
         soundPlayer.stop();
         super.onBackPressed();
