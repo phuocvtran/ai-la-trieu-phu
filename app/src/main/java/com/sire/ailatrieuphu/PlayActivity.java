@@ -251,7 +251,7 @@ public class PlayActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     timer.cancel();
                     // Xử lý lưu điểm
-                    user.setScore(reward[15]);
+                    user.setScore(reward[correctAnswer]);
                     saveHighscore();
 
                     // Trở lại menu
