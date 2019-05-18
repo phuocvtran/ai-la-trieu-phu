@@ -2,11 +2,9 @@ package com.sire.ailatrieuphu;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +13,11 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -77,7 +72,6 @@ public class PlayActivity extends AppCompatActivity {
 
     // Lấy câu hỏi
     private void getQuestionFromDatabase() {
-        optionGroup.clearCheck();
         final DatabaseReference questionRef = databaseRef.child("Questions");
         questionRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -127,6 +121,7 @@ public class PlayActivity extends AppCompatActivity {
         optionB.setEnabled(true);
         optionC.setEnabled(true);
         optionD.setEnabled(true);
+        optionGroup.clearCheck();
         DatabaseReference idRef = questionRef.child(id);
         idRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -326,6 +321,40 @@ public class PlayActivity extends AppCompatActivity {
 
     // Xử lý lưu điểm
     private void saveHighscore() {
-
+        if(!user.getScore().equals("0")) {
+            final DatabaseReference scoreRef = databaseRef.child("Score");
+            String key = scoreRef.push().getKey();
+            scoreRef.child(key).setValue(user);
+        }
     }
+
+    // Lỗi
+    /*private void saveHighscore() {
+        final DatabaseReference scoreRef = databaseRef.child("Score");
+        final Query lowestScoreUser = scoreRef.orderByChild("score").limitToFirst(1);
+        lowestScoreUser.getRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d("KeyBeforeIf", snapshot.getKey());
+                    final DatabaseReference lowestScoreRef = databaseRef.child("Score").child(snapshot.getKey());
+                    lowestScoreRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            User lowestScoreUser = dataSnapshot.getValue(User.class);
+                            if(Integer.parseInt(lowestScoreUser.getScore()) <= Integer.parseInt(user.getScore())) {
+                                lowestScoreRef.setValue(user);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+    }*/
 }
