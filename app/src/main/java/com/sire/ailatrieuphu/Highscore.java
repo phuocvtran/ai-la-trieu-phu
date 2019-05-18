@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -45,7 +46,8 @@ public class Highscore extends AppCompatActivity {
 
     // Load điểm
     private void loadScore() {
-        scoreRef.addValueEventListener(new ValueEventListener() {
+        Query query = scoreRef.orderByChild("score").limitToLast(9);
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot scoreSnapshot : dataSnapshot.getChildren()) {
