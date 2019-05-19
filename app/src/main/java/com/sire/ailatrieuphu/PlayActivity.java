@@ -78,8 +78,8 @@ public class PlayActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 sumQuestion = dataSnapshot.getChildrenCount();
                 Log.d("ALLQUESTIONS", String.valueOf(sumQuestion));
-                // Lấy 15 câu hỏi random
-                getRandomIds(1, sumQuestion);
+                // Lấy 15 câu hỏi + 1 câu Swap Random lưu vào questionsId
+                getRandomIds(0, sumQuestion - 1);
                 Log.d("ALLQUESTIONS", String.valueOf(questionsId));
                 showQuestion(questionRef, questionsId.get(correctAnswer));
 
@@ -105,7 +105,7 @@ public class PlayActivity extends AppCompatActivity {
     private void getRandomIds(long min, long max) {
         HashSet hs = new HashSet();
         while(hs.size() < 16) {
-            String result = String.valueOf((long)(Math.random() * max) + 1);
+            String result = String.valueOf((long)(Math.random() * max) + min);
             hs.add(result);
         }
 
