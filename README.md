@@ -12,12 +12,12 @@ Tải về: [google-services](https://console.firebase.google.com/m/mobilesdk/pr
 # To-do:
 ### 17/5/2019
   - [ ] Fix âm thanh khi chuyển app
-  - [ ] Thêm điểm cao khi chơi xong (Tối đa 9 người, không trùng tên) (Đã đc nhưng bug vcl)
+  - [X] Thêm điểm cao khi chơi xong (Tối đa 9 người, ~~không trùng tên~~)
   - [ ] Button Hỏi ý kiến
 ### 15/5/2019
   - [X] Chơi
   - [ ] Fix âm thanh khi chuyển app
-  - [ ] Thêm điểm cao khi chơi xong (Tối đa 10 người, không trùng tên)
+  - [X] Thêm điểm cao khi chơi xong (Tối đa ~~10~~ 9 người, ~~không trùng tên~~)
 ### 14/5/2019
   - [X] Chơi
   - [X] Tương tác Firebase
