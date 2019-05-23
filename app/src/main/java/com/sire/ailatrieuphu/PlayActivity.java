@@ -33,7 +33,8 @@ public class PlayActivity extends AppCompatActivity {
     User user;
     CountDownTimer timer;
 
-    MediaPlayer playSound;
+    MediaPlayer uncleSam;
+    MediaPlayer beginPlaySound;
     String[] reward = {"0", "200", "400", "600", "1000", "2000", "3000", "6000", "10000", "14000", "22000", "30000", "40000", "60000", "85000", "100000"};
     ArrayList<String> questionsId = new ArrayList<>();
     int correctAnswer = 0;
@@ -45,6 +46,10 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+
+        beginPlaySound = MediaPlayer.create(PlayActivity.this, R.raw.play_begin);
+        beginPlaySound.setVolume(100, 100);
+        beginPlaySound.start();
 
         optionGroup = findViewById(R.id.rdGroup);
         optionA = findViewById(R.id.rdbA);
@@ -216,8 +221,8 @@ public class PlayActivity extends AppCompatActivity {
     // Xử lý khi đúng
     private void isCorrect(final DatabaseReference questionRef) {
         if(correctAnswer < 14) {
-            playSound = MediaPlayer.create(PlayActivity.this, R.raw.dung);
-            playSound.start();
+            uncleSam = MediaPlayer.create(PlayActivity.this, R.raw.correct);
+            uncleSam.start();
             timer.cancel();
             correctAnswer++;
             Log.d("CORRECT_ANSWER", String.valueOf(correctAnswer));
@@ -251,7 +256,7 @@ public class PlayActivity extends AppCompatActivity {
 
                     // Trở lại menu
                     timer.cancel();
-                    playSound.stop();
+                    uncleSam.stop();
                     finish();
                 }
             });
@@ -261,8 +266,8 @@ public class PlayActivity extends AppCompatActivity {
 
     // Xử lý khi sai
     private void isWrong(DatabaseReference questionRef) {
-        playSound = MediaPlayer.create(PlayActivity.this, R.raw.sai);
-        playSound.start();
+        uncleSam = MediaPlayer.create(PlayActivity.this, R.raw.wrong);
+        uncleSam.start();
         timer.cancel();
 
         AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
@@ -278,7 +283,7 @@ public class PlayActivity extends AppCompatActivity {
 
                 // Trở lại menu
                 timer.cancel();
-                playSound.stop();
+                uncleSam.stop();
                 finish();
             }
         });
@@ -295,8 +300,8 @@ public class PlayActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                playSound = MediaPlayer.create(PlayActivity.this, R.raw.hetgio);
-                playSound.start();
+                uncleSam = MediaPlayer.create(PlayActivity.this, R.raw.time_out);
+                uncleSam.start();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(PlayActivity.this);
                 builder.setTitle("Hết Giờ");

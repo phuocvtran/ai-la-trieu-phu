@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             imgSound.setImageResource(R.drawable.sound);
-            soundPlayer = MediaPlayer.create(MainActivity.this, R.raw.open);
+            soundPlayer = MediaPlayer.create(MainActivity.this, R.raw.main_menu);
             soundPlayer.setVolume(10, 100);
             soundPlayer.start();
             soundPlayer.setLooping(true);
