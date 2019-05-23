@@ -327,34 +327,4 @@ public class PlayActivity extends AppCompatActivity {
             scoreRef.child(key).setValue(user);
         }
     }
-
-    // Lỗi
-    /*private void saveHighscore() {
-        final DatabaseReference scoreRef = databaseRef.child("Score");
-        final Query lowestScoreUser = scoreRef.orderByChild("score").limitToFirst(1);
-        lowestScoreUser.getRef().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Log.d("KeyBeforeIf", snapshot.getKey());
-                    final DatabaseReference lowestScoreRef = databaseRef.child("Score").child(snapshot.getKey());
-                    lowestScoreRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            User lowestScoreUser = dataSnapshot.getValue(User.class);
-                            if(Integer.parseInt(lowestScoreUser.getScore()) <= Integer.parseInt(user.getScore())) {
-                                lowestScoreRef.setValue(user);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {}
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
-    }*/
 }
