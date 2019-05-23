@@ -5,7 +5,7 @@
 
 #### **DEADLINE: 22/6/2019**
 # Yêu cầu
-Tải về: [google-services](https://console.firebase.google.com/m/mobilesdk/projects/544622484354/clients/android%3Acom.sire.fireflame/artifacts/2?param=%5B%22getArtifactRequest%22%2Cnull%2C%22android%3Acom.sire.fireflame%22%2C%222%22%2C%22544622484354%22%5D&authuser=1) và lưu theo hình
+Tải về: [google-services](https://console.firebase.google.com/m/mobilesdk/projects/626124764127/clients/android%3Acom.sire.ailatrieuphu/artifacts/2?param=%5B%22getArtifactRequest%22%2Cnull%2C%22android%3Acom.sire.ailatrieuphu%22%2C%222%22%2C%22626124764127%22%5D&authuser=0) và lưu theo hình
 
 ![Lưu như hình](Capture.PNG)
 
