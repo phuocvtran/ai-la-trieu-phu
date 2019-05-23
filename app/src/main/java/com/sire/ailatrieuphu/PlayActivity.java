@@ -322,7 +322,7 @@ public class PlayActivity extends AppCompatActivity {
     // Xử lý lưu điểm
     private void saveHighscore() {
         if(!user.getScore().equals("0")) {
-            final DatabaseReference scoreRef = databaseRef.child("Score");
+            final DatabaseReference scoreRef = databaseRef.child("Scores");
             String key = scoreRef.push().getKey();
             scoreRef.child(key).setValue(user);
         }

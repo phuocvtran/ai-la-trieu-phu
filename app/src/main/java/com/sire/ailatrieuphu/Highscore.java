@@ -24,7 +24,7 @@ public class Highscore extends AppCompatActivity {
     Button btnReturn;
     ArrayList<User> userList = new ArrayList<User>();
     ArrayAdapter<User> userArrayAdapter = null;
-    private DatabaseReference scoreRef = FirebaseDatabase.getInstance().getReference().child("Score");
+    private DatabaseReference scoreRef = FirebaseDatabase.getInstance().getReference().child("Scores");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
