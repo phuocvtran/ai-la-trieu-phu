@@ -35,7 +35,7 @@ public class PlayActivity extends AppCompatActivity {
 
     MediaPlayer uncleSam;
     MediaPlayer beginPlaySound;
-    String[] reward = {"0", "200", "400", "600", "1000", "2000", "3000", "6000", "10000", "14000", "22000", "30000", "40000", "60000", "85000", "100000"};
+    int[] reward = {0, 200, 400, 600, 1000, 2000, 3000, 6000, 10000, 14000, 22000, 30000, 40000, 60000, 85000, 100000};
     ArrayList<String> questionsId = new ArrayList<>();
     int correctAnswer = 0;
 
@@ -214,23 +214,26 @@ public class PlayActivity extends AppCompatActivity {
         }
         else {
             // Xử lý khi sai
-            isWrong(questionRef);
+            isWrong();
         }
     }
 
     // Xử lý khi đúng
     private void isCorrect(final DatabaseReference questionRef) {
-        if(correctAnswer < 14) {
+        correctAnswer++;
+        Log.d("CORRECT_ANSWER", String.valueOf(correctAnswer));
+
+        if(correctAnswer < 15) {
             uncleSam = MediaPlayer.create(PlayActivity.this, R.raw.correct);
             uncleSam.start();
             timer.cancel();
-            correctAnswer++;
-            Log.d("CORRECT_ANSWER", String.valueOf(correctAnswer));
 
             AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
             builder.setTitle("Chúc mừng");
             builder.setMessage("Một Câu Trả Lời Chính Xác");
             AlertDialog dialog = builder.create();
+
+            // Lấy câu hỏi tiếp theo
             dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Câu Tiếp Theo", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -244,7 +247,7 @@ public class PlayActivity extends AppCompatActivity {
         else {
             AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
             builder.setTitle("Chiến Thắng");
-            builder.setMessage("Bạn Đã Kiếm Được: " + reward[15]);
+            builder.setMessage("Bạn Đã Hoàn Thành 15 Câu Hỏi Và Kiếm Được: " + reward[correctAnswer]);
             AlertDialog dialog = builder.create();
             dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                 @Override
@@ -265,14 +268,14 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     // Xử lý khi sai
-    private void isWrong(DatabaseReference questionRef) {
+    private void isWrong() {
         uncleSam = MediaPlayer.create(PlayActivity.this, R.raw.wrong);
         uncleSam.start();
         timer.cancel();
 
         AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        builder.setTitle("Sai Rồi");
-        builder.setMessage("Thật Đáng Tiếc!\nSố Điểm Đạt Được: " + reward[correctAnswer]);
+        builder.setTitle("Thật Đáng Tiếc!");
+        builder.setMessage("Số Điểm Đạt Được: " + reward[correctAnswer]);
         AlertDialog dialog = builder.create();
         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Trở lại", new DialogInterface.OnClickListener() {
             @Override
@@ -326,7 +329,7 @@ public class PlayActivity extends AppCompatActivity {
 
     // Xử lý lưu điểm
     private void saveHighscore() {
-        if(!user.getScore().equals("0")) {
+        if(user.getScore() != 0) {
             final DatabaseReference scoreRef = databaseRef.child("Scores");
             String key = scoreRef.push().getKey();
             scoreRef.child(key).setValue(user);

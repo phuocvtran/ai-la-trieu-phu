@@ -1,20 +1,21 @@
 package com.sire.ailatrieuphu;
 
 public class User implements Comparable<User> {
-    private String user, score;
+    private String user;
+    private int score;
 
     public User() {}
 
-    public User(String name, String score) {
+    public User(String name, int score) {
         this.user = name;
         this.score = score;
     }
 
-    public String getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
@@ -33,9 +34,9 @@ public class User implements Comparable<User> {
     // Sắp xếp
     @Override
     public int compareTo(User o) {
-        int comparedUser = Integer.parseInt(o.getScore());
+        int comparedUser = o.getScore();
         // Giảm dần
-        return comparedUser - Integer.parseInt(this.getScore());
+        return comparedUser - this.getScore();
         // Tăng dần
         //return Integer.parseInt(this.getScore()) - comparedUser;
     }
