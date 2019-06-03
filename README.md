@@ -10,10 +10,13 @@ Tải về: [google-services](https://console.firebase.google.com/m/mobilesdk/pr
 ![Lưu như hình](Capture.PNG)
 
 # To-do:
+### 3/6/2019
+  - [ ] Fix âm thanh khi chuyển app
+  - [ ] Chỉnh UI, thêm thắt các kiểu (nếu rảnh)
 ### 17/5/2019
   - [ ] Fix âm thanh khi chuyển app
   - [X] Thêm điểm cao khi chơi xong (Tối đa 9 người, ~~không trùng tên~~)
-  - [ ] Button Hỏi ý kiến
+  - [X] Button Hỏi ý kiến
 ### 15/5/2019
   - [X] Chơi
   - [ ] Fix âm thanh khi chuyển app
