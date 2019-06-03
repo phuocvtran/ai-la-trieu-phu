@@ -1,6 +1,7 @@
 package com.sire.ailatrieuphu;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
@@ -8,8 +9,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -141,6 +144,7 @@ public class PlayActivity extends AppCompatActivity {
 
                 timer.cancel();
                 startTimer();
+
                 // Kiểm tra đáp án
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -194,6 +198,70 @@ public class PlayActivity extends AppCompatActivity {
                                     break;
                             }
                         }
+                    }
+                });
+
+                // Hỏi ý kiến
+                btnAsk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btnAsk.setEnabled(false);
+                        ProgressBar A, B, C, D;
+                        TextView opinionA, opinionB, opinionC, opinionD;
+                        int tempOptionA, tempOptionB, tempOptionC, tempOptionD;
+                        Random random = new Random();
+                        tempOptionA = random.nextInt(70);
+                        tempOptionB = random.nextInt(70 - tempOptionA);
+                        tempOptionC = random.nextInt(70 - tempOptionA - tempOptionB);
+                        tempOptionD = random.nextInt(70 - tempOptionA - tempOptionB - tempOptionC);
+
+                        if(optionA.getText().toString().equals(question.getAnswer())) {
+                            tempOptionA += 30;
+                        }
+                        else if (optionB.getText().toString().equals(question.getAnswer())) {
+                            tempOptionB += 30;
+                        }
+                        else if (optionC.getText().toString().equals(question.getAnswer())) {
+                            tempOptionC += 30;
+                        }
+                        else if (optionD.getText().toString().equals(question.getAnswer())) {
+                            tempOptionD += 30;
+                        }
+                        Log.d("OPINION A", String.valueOf(tempOptionA));
+                        Log.d("OPINION B", String.valueOf(tempOptionB));
+                        Log.d("OPINION C", String.valueOf(tempOptionC));
+                        Log.d("OPINION D", String.valueOf(tempOptionD));
+                        
+                        AlertDialog.Builder builder = new AlertDialog.Builder(PlayActivity.this);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View view = inflater.inflate(R.layout.ask, null);
+                        dialog.setView(view);
+                        dialog.setTitle("");
+
+                        A = view.findViewById(R.id.pbOptionA);
+                        B = view.findViewById(R.id.pbOptionB);
+                        C = view.findViewById(R.id.pbOptionC);
+                        D = view.findViewById(R.id.pbOptionD);
+                        opinionA = view.findViewById(R.id.tvOpinionA);
+                        opinionB = view.findViewById(R.id.tvOpinionB);
+                        opinionC = view.findViewById(R.id.tvOpinionC);
+                        opinionD = view.findViewById(R.id.tvOpinionD);
+
+                        A.setProgress(tempOptionA);
+                        B.setProgress(tempOptionB);
+                        C.setProgress(tempOptionC);
+                        D.setProgress(tempOptionD);
+                        opinionA.setText(tempOptionA + "%");
+                        opinionB.setText(tempOptionB + "%");
+                        opinionC.setText(tempOptionC + "%");
+                        opinionD.setText(tempOptionD + "%");
+                        dialog.show();
                     }
                 });
             }
