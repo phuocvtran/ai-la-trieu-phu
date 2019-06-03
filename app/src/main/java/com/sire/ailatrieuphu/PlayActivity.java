@@ -231,7 +231,7 @@ public class PlayActivity extends AppCompatActivity {
                         Log.d("OPINION B", String.valueOf(tempOptionB));
                         Log.d("OPINION C", String.valueOf(tempOptionC));
                         Log.d("OPINION D", String.valueOf(tempOptionD));
-                        
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(PlayActivity.this);
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
