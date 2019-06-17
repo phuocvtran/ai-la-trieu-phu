@@ -105,8 +105,6 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
-
-        /**/
     }
 
     // Lấy 15 câu hỏi + 1 câu Swap Random lưu vào questionsId
@@ -402,5 +400,11 @@ public class PlayActivity extends AppCompatActivity {
             String key = scoreRef.push().getKey();
             scoreRef.child(key).setValue(user);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
     }
 }
