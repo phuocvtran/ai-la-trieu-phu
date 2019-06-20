@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Tắt âm thanh khi bấm back
     @Override
     public void onBackPressed() {
         soundPlayer.stop();
