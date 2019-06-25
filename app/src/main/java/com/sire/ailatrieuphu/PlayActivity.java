@@ -280,7 +280,7 @@ public class PlayActivity extends AppCompatActivity {
         }
         else {
             // Xử lý khi sai
-            isWrong();
+            //isWrong();
         }
     }
 
